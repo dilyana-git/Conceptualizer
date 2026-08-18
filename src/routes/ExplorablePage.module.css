@@ -1,0 +1,137 @@
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-4) var(--sp-8);
+}
+
+@media (min-width: 720px) {
+  .page {
+    padding: var(--sp-8) var(--sp-6) var(--sp-8);
+  }
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 var(--sp-3);
+}
+
+.title {
+  margin-bottom: var(--sp-5);
+}
+
+.hook p {
+  font-size: var(--size-20);
+  line-height: 1.5;
+}
+
+.section {
+  margin-top: var(--sp-8);
+}
+
+.sectionHead {
+  font-size: var(--size-26);
+  margin-bottom: var(--sp-4);
+}
+
+/* The model sits in a sunk plate, seated with a hairline (§2.1) — no shadows. */
+.stage {
+  margin-top: var(--sp-6);
+  padding: var(--sp-5);
+  background: var(--paper);
+  border: var(--hairline);
+  border-radius: 3px;
+}
+
+.prompt {
+  font-family: var(--font-mono);
+  font-size: var(--size-15);
+  color: var(--graphite);
+  background: var(--paper-sunk);
+  border-left: 2px solid var(--graphite);
+  padding: var(--sp-3) var(--sp-4);
+  margin: 0 0 var(--sp-5);
+  max-width: none;
+}
+
+.equation {
+  margin: var(--sp-5) 0;
+  padding: var(--sp-4);
+  background: var(--paper-sunk);
+  border: var(--hairline);
+  border-radius: 3px;
+  overflow-x: auto;
+}
+
+.edges {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.edge {
+  border-top: var(--hairline);
+  padding-top: var(--sp-4);
+}
+
+.edgePrompt {
+  font-size: var(--size-17);
+  margin-bottom: var(--sp-3);
+}
+
+.edgeActions {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.edgeButton {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  color: var(--graphite);
+  background: var(--paper-sunk);
+  border: var(--hairline);
+  border-radius: 2px;
+  padding: var(--sp-2) var(--sp-3);
+  cursor: pointer;
+  min-height: 34px;
+}
+
+.edgeButton:hover {
+  background: var(--paper);
+}
+
+.answer {
+  margin-top: var(--sp-3);
+  font-size: var(--size-15);
+  color: var(--muted);
+  max-width: var(--measure);
+}
+
+.answerSummary {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  cursor: pointer;
+  color: var(--graphite);
+}
+
+.limits li {
+  margin-bottom: var(--sp-3);
+  max-width: var(--measure);
+}
+
+.meta {
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  color: var(--muted);
+}

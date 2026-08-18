@@ -1,0 +1,32 @@
+.plot {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.grid line {
+  stroke: var(--rule);
+  stroke-width: 0.5;
+}
+
+.axis line,
+.axis path {
+  stroke: var(--graphite);
+  stroke-width: 1;
+}
+
+.tick {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+  fill: var(--muted);
+}
+
+.axisLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--muted);
+}

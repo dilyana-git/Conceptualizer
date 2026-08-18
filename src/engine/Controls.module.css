@@ -1,0 +1,196 @@
+/* Control panel — SPEC §2.1 (sunk well, 1px hairline seat, no shadows). */
+
+.panel {
+  background: var(--paper-sunk);
+  border: var(--hairline);
+  border-radius: 3px;
+  padding: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-2) var(--sp-3);
+  flex-wrap: wrap;
+  border-bottom: var(--hairline);
+  padding-bottom: var(--sp-3);
+  margin: 0;
+}
+
+.headTitle {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+}
+
+/* Panel actions are ink, not signal: they are not parameters (§2.1). */
+.action {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  white-space: nowrap;
+  color: var(--graphite);
+  background: transparent;
+  border: var(--hairline);
+  border-radius: 2px;
+  padding: var(--sp-1) var(--sp-3);
+  cursor: pointer;
+  min-height: 32px;
+}
+
+.action:hover {
+  background: var(--paper);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.labelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.label {
+  font-size: var(--size-15);
+  color: var(--graphite);
+}
+
+.readout {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-size: var(--size-15);
+  /* The readout IS the controlled quantity, so it carries signal (§2.1). */
+  color: var(--signal);
+  white-space: nowrap;
+}
+
+.unit {
+  color: var(--muted);
+  font-size: var(--size-13);
+  margin-left: 0.25em;
+}
+
+.hint {
+  font-size: var(--size-13);
+  color: var(--muted);
+  margin: 0;
+  max-width: none;
+}
+
+/* --- Range input --- */
+
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: transparent;
+  /* §9: comfortable touch target on mobile. */
+  height: 32px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.range::-webkit-slider-runnable-track {
+  height: 2px;
+  background: var(--rule);
+  border-radius: 2px;
+}
+
+.range::-moz-range-track {
+  height: 2px;
+  background: var(--rule);
+  border-radius: 2px;
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -8px;
+  border-radius: 50%;
+  background: var(--signal);
+  border: 2px solid var(--paper-sunk);
+}
+
+.range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--signal);
+  border: 2px solid var(--paper-sunk);
+}
+
+.bounds {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  color: var(--muted);
+}
+
+/* --- Discrete (radio group) --- */
+
+.options {
+  display: flex;
+  gap: var(--sp-2);
+  border: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--size-15);
+  border: var(--hairline);
+  border-radius: 2px;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--paper);
+  cursor: pointer;
+  min-height: 36px;
+}
+
+.optionChecked {
+  border-color: var(--signal);
+  color: var(--signal);
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-height: 32px;
+}
+
+.toggleRow input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--signal);
+  cursor: pointer;
+}
+
+.copied {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  color: var(--muted);
+}

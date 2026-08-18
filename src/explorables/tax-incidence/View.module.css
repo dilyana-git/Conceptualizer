@@ -1,0 +1,231 @@
+/*
+ * Colour semantics for this explorable (§2.1).
+ *
+ *   --signal      (blue)   the consumer side: demand curve, price paid, consumer burden
+ *   --signal-warm (orange) the producer side: supply curve, price kept, producer burden
+ *
+ * Each hue maps one-to-one onto an elasticity slider, so a reader can see at a
+ * glance which control shapes which line. The tax wedge itself is drawn in ink
+ * with a heavy bracket: it is the *gap* between the two controlled sides, and
+ * giving it a third hue would break the mapping rather than clarify it.
+ * Everything else — axes, grid, the untaxed equilibrium, the loss triangle — is
+ * ink, because the model fixes it.
+ */
+
+/*
+ * §9: on narrow viewports the controls sit directly below the visualization —
+ * never beside it, and never pushed below a wall of readouts. The source order
+ * is chart, controls, readouts, so a phone reader can drag a slider and watch
+ * the chart without scrolling between them. On wide viewports the controls move
+ * into a second column and the readouts sit under the chart.
+ */
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .figure {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+  }
+
+  .chartCell {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .controlsCell {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .metricsCell {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+.chartCell,
+.metricsCell {
+  min-width: 0;
+}
+
+/* §9 mobile: visualization capped at 45vh so chart and controls are on screen
+   together. A reader who has to scroll between the slider and the effect
+   learns nothing. */
+.chart {
+  width: 100%;
+  max-height: 45vh;
+}
+
+@media (min-width: 900px) {
+  .chart {
+    max-height: none;
+  }
+}
+
+.curve {
+  fill: none;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.demand {
+  stroke: var(--signal);
+}
+
+.supply {
+  stroke: var(--signal-warm);
+}
+
+.curveLabel {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.demandLabel {
+  fill: var(--signal);
+}
+
+.supplyLabel {
+  fill: var(--signal-warm);
+}
+
+.guide {
+  stroke: var(--rule);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.guideConsumer {
+  stroke: var(--signal);
+  opacity: 0.55;
+}
+
+.guideProducer {
+  stroke: var(--signal-warm);
+  opacity: 0.55;
+}
+
+.wedge {
+  stroke: var(--graphite);
+  stroke-width: 2;
+  fill: none;
+}
+
+.equilibrium {
+  stroke: var(--graphite);
+  stroke-width: 1;
+}
+
+.csFill {
+  fill: var(--signal-dim);
+}
+
+.psFill {
+  fill: var(--signal-warm-dim);
+}
+
+.revenueFill {
+  fill: var(--rule);
+  opacity: 0.45;
+}
+
+.dwlFill {
+  fill: url(#hatch-dwl);
+  stroke: var(--graphite);
+  stroke-width: 1;
+}
+
+.regionLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--graphite);
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.wedgeLabel {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  fill: var(--graphite);
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* --- Readouts --- */
+
+.readouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+@media (min-width: 560px) {
+  .readouts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readoutLabel {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.readoutValue {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-size: var(--size-17);
+}
+
+@media (min-width: 900px) {
+  .readoutValue {
+    font-size: var(--size-20);
+  }
+}
+
+.readoutConsumer {
+  color: var(--signal);
+}
+
+.readoutProducer {
+  color: var(--signal-warm);
+}
+
+.readoutInk {
+  color: var(--graphite);
+}
+
+.caption {
+  font-size: var(--size-15);
+  color: var(--muted);
+  margin: var(--sp-4) 0 0;
+  max-width: var(--measure);
+}
+
+.sideNote {
+  font-size: var(--size-13);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  margin: var(--sp-3) 0 0;
+}
