@@ -7,7 +7,7 @@
  * is the section that distinguishes this from a physics demo page.
  */
 
-export type Domain = 'physics' | 'mathematics' | 'economics';
+export type Domain = 'physics' | 'mathematics' | 'economics' | 'statistics';
 
 /** §7.4: a challenge prompt the widget can actually answer. */
 export interface EdgeChallenge {

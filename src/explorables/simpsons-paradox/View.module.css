@@ -1,0 +1,141 @@
+/*
+ * Colour semantics (§2.1).
+ *
+ *   --signal      (blue)   the within-group story: the points and the per-group
+ *                          fits, shaped by the trend and scatter sliders
+ *   --signal-warm (orange) the pooled fit, the answer you get by ignoring the
+ *                          grouping — toggled on and off by the reader
+ *
+ * Groups are deliberately NOT given separate hues. The palette has two signal
+ * colours and five possible groups, and inventing three more would break the
+ * rule that colour marks what the reader controls. The groups are already
+ * separated in space, which is what the explorable is about.
+ */
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .figure {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+  }
+  .chartCell { grid-column: 1; grid-row: 1; }
+  .controlsCell { grid-column: 2; grid-row: 1 / span 2; }
+  .metricsCell { grid-column: 1; grid-row: 2; }
+}
+
+.chartCell,
+.metricsCell { min-width: 0; }
+
+.chart {
+  width: 100%;
+  max-height: 45vh;
+}
+
+@media (min-width: 900px) {
+  .chart { max-height: none; }
+}
+
+.point {
+  fill: var(--signal);
+  opacity: 0.42;
+}
+
+.withinLine {
+  stroke: var(--signal);
+  stroke-width: 2;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.pooledLine {
+  stroke: var(--signal-warm);
+  stroke-width: 2.5;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.labelWithin { fill: var(--signal); }
+.labelPooled { fill: var(--signal-warm); }
+
+.verdict {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: var(--sp-2) var(--sp-3);
+  border: var(--hairline);
+  border-radius: 2px;
+  display: inline-block;
+  margin-bottom: var(--sp-3);
+}
+
+.verdictReversed {
+  border-color: var(--signal-warm);
+  color: var(--signal-warm);
+}
+
+.verdictAgree {
+  color: var(--muted);
+}
+
+.readouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+@media (min-width: 560px) {
+  .readouts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readoutLabel {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.readoutValue {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-size: var(--size-17);
+}
+
+@media (min-width: 900px) {
+  .readoutValue { font-size: var(--size-20); }
+}
+
+.readoutWithin { color: var(--signal); }
+.readoutPooled { color: var(--signal-warm); }
+
+.caption {
+  font-size: var(--size-15);
+  color: var(--muted);
+  margin: var(--sp-4) 0 0;
+  max-width: var(--measure);
+}

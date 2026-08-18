@@ -1,0 +1,179 @@
+/*
+ * Colour semantics (§2.1).
+ *
+ *   --signal      (blue)   the Kaplan-Meier estimate — the estimator under study
+ *   --signal-warm (orange) the naive comparator the reader selects
+ *   --graphite             the true curve the data was generated from
+ *
+ * The two competing estimates carry the hues because the estimator choice and
+ * the data-generating sliders are what the reader manipulates. The truth they
+ * are judged against is drawn as ink, dashed, so it never reads as a third
+ * estimate.
+ */
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .figure {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+  }
+
+  .chartCell {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .controlsCell {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .metricsCell {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+.chartCell,
+.metricsCell {
+  min-width: 0;
+}
+
+.chart {
+  width: 100%;
+  max-height: 45vh;
+}
+
+@media (min-width: 900px) {
+  .chart {
+    max-height: none;
+  }
+}
+
+.curve {
+  fill: none;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.km {
+  stroke: var(--signal);
+}
+
+.comparator {
+  stroke: var(--signal-warm);
+  stroke-width: 1.75;
+}
+
+.truth {
+  stroke: var(--graphite);
+  stroke-width: 1.25;
+  stroke-dasharray: 5 4;
+  opacity: 0.75;
+}
+
+.band {
+  fill: var(--signal-dim);
+}
+
+/* Censoring marks: the standard convention is a small tick on the curve. */
+.censorTick {
+  stroke: var(--signal);
+  stroke-width: 1.25;
+  opacity: 0.85;
+}
+
+.halfLine {
+  stroke: var(--rule);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
+.curveLabel {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.kmLabel {
+  fill: var(--signal);
+}
+
+.comparatorLabel {
+  fill: var(--signal-warm);
+}
+
+.truthLabel {
+  fill: var(--muted);
+}
+
+/* --- Readouts --- */
+
+.readouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+@media (min-width: 560px) {
+  .readouts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readoutLabel {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.readoutValue {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-size: var(--size-17);
+}
+
+@media (min-width: 900px) {
+  .readoutValue {
+    font-size: var(--size-20);
+  }
+}
+
+.readoutKm {
+  color: var(--signal);
+}
+
+.readoutComparator {
+  color: var(--signal-warm);
+}
+
+.readoutInk {
+  color: var(--graphite);
+}
+
+.caption {
+  font-size: var(--size-15);
+  color: var(--muted);
+  margin: var(--sp-4) 0 0;
+  max-width: var(--measure);
+}

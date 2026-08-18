@@ -1,0 +1,189 @@
+/*
+ * Colour semantics (§2.1).
+ *
+ *   --signal      (blue)   the fitted curves — what the flexibility, noise and
+ *                          sample-size sliders produce
+ *   --signal-warm (orange) the average fit, whose gap from the truth IS the bias
+ *   --graphite             the target being estimated, which the reader cannot move
+ */
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .figure {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+  }
+  .chartCell { grid-column: 1; grid-row: 1; }
+  .controlsCell { grid-column: 2; grid-row: 1 / span 2; }
+  .metricsCell { grid-column: 1; grid-row: 2; }
+}
+
+.chartCell,
+.metricsCell { min-width: 0; }
+
+.chart {
+  width: 100%;
+  max-height: 45vh;
+}
+
+@media (min-width: 900px) {
+  .chart { max-height: none; }
+}
+
+.fit {
+  fill: none;
+  stroke: var(--signal);
+  stroke-width: 1;
+  opacity: 0.22;
+  vector-effect: non-scaling-stroke;
+}
+
+.average {
+  fill: none;
+  stroke: var(--signal-warm);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.truth {
+  fill: none;
+  stroke: var(--graphite);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.trainPoint {
+  fill: var(--graphite);
+  opacity: 0.55;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.labelAverage { fill: var(--signal-warm); }
+.labelTruth { fill: var(--muted); }
+
+/* --- The decomposition bar: the payoff of the whole explorable --- */
+
+.barBlock {
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+.barHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--sp-2);
+}
+
+.bar {
+  display: flex;
+  width: 100%;
+  height: 22px;
+  border: var(--hairline);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.segBias {
+  background: var(--graphite);
+}
+
+.segVariance {
+  background: var(--signal);
+}
+
+.segNoise {
+  background: var(--rule);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  margin-top: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  color: var(--muted);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+  flex: none;
+}
+
+.legendValue {
+  font-variant-numeric: tabular-nums;
+  color: var(--graphite);
+}
+
+.readouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-4);
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readoutLabel {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.readoutValue {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-size: var(--size-17);
+}
+
+@media (min-width: 900px) {
+  .readoutValue { font-size: var(--size-20); }
+}
+
+.readoutTotal { color: var(--signal); }
+.readoutInk { color: var(--graphite); }
+
+.caption {
+  font-size: var(--size-15);
+  color: var(--muted);
+  margin: var(--sp-4) 0 0;
+  max-width: var(--measure);
+}

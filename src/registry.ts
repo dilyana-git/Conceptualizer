@@ -12,6 +12,10 @@ import type { ParamSchema } from './engine/params';
 import type { ParamApi } from './engine/useParams';
 
 import { meta as taxIncidenceMeta, schema as taxIncidenceSchema, View as TaxIncidenceView } from './explorables/tax-incidence';
+import { meta as survivalMeta, schema as survivalSchema, View as SurvivalView } from './explorables/survival-analysis';
+import { meta as powerMeta, schema as powerSchema, View as PowerView } from './explorables/statistical-power';
+import { meta as simpsonMeta, schema as simpsonSchema, View as SimpsonView } from './explorables/simpsons-paradox';
+import { meta as biasVarianceMeta, schema as biasVarianceSchema, View as BiasVarianceView } from './explorables/bias-variance';
 
 export interface ExplorableModule<S extends ParamSchema = ParamSchema> {
   meta: ExplorableMeta;
@@ -22,6 +26,10 @@ export interface ExplorableModule<S extends ParamSchema = ParamSchema> {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const registry: readonly ExplorableModule<any>[] = [
   { meta: taxIncidenceMeta, schema: taxIncidenceSchema, View: TaxIncidenceView },
+  { meta: survivalMeta, schema: survivalSchema, View: SurvivalView },
+  { meta: powerMeta, schema: powerSchema, View: PowerView },
+  { meta: simpsonMeta, schema: simpsonSchema, View: SimpsonView },
+  { meta: biasVarianceMeta, schema: biasVarianceSchema, View: BiasVarianceView },
 ];
 
 export function findExplorable(slug: string): ExplorableModule<any> | undefined {
