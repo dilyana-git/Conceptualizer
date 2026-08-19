@@ -10,8 +10,21 @@ import { useResizeObserver } from './useResizeObserver';
 import { useInView } from './useInView';
 
 export interface CanvasProps {
-  /** Called with a context scaled to CSS pixels; (width, height) are CSS px. */
-  draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void;
+  /**
+   * Called with a context scaled to CSS pixels; (width, height) are CSS px.
+   *
+   * `elapsed` is seconds since the animation started, and is always 0 when
+   * `animate` is false. Added for wave-interference (SPEC §8 #2), the first
+   * explorable whose field is a function of time: without it an animated draw
+   * has to reach for `performance.now()` itself, which puts the clock in the
+   * view instead of in the engine and makes the frame unreproducible.
+   */
+  draw: (
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number,
+    elapsed: number,
+  ) => void;
   /** Re-run `draw` on every animation frame rather than only on change. */
   animate?: boolean;
   className?: string | undefined;
@@ -40,22 +53,23 @@ export function Canvas({ draw, animate = false, className, ariaLabel }: CanvasPr
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const paint = () => {
+    const paint = (elapsed: number) => {
       ctx.save();
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width, height);
-      drawRef.current(ctx, width, height);
+      drawRef.current(ctx, width, height, elapsed);
       ctx.restore();
     };
 
     if (!animate || !inView) {
-      paint();
+      paint(0);
       return;
     }
 
     let raf = 0;
-    const loop = () => {
-      paint();
+    const started = performance.now();
+    const loop = (now: number) => {
+      paint((now - started) / 1000);
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);

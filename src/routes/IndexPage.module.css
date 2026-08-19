@@ -1,0 +1,125 @@
+/*
+ * The index. §11 puts it last on purpose, and it stays deliberately quiet: its
+ * whole job is to get a reader into an explorable, so nothing here competes
+ * with the titles. No cards, no shadows — hairline rules and the display face,
+ * which is the §2 engraved-plate idiom applied to a table of contents.
+ */
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--sp-7) var(--sp-4) var(--sp-8);
+}
+
+@media (min-width: 720px) {
+  .page {
+    padding: var(--sp-8) var(--sp-6);
+  }
+}
+
+.masthead {
+  border-bottom: 2px solid var(--graphite);
+  padding-bottom: var(--sp-5);
+  margin-bottom: var(--sp-7);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--size-46);
+  line-height: 1.05;
+  margin: 0 0 var(--sp-4);
+  letter-spacing: -0.01em;
+}
+
+.standfirst {
+  font-size: var(--size-20);
+  line-height: 1.5;
+  color: var(--graphite);
+  margin: 0;
+  max-width: var(--measure);
+}
+
+.domain {
+  margin-bottom: var(--sp-7);
+}
+
+.domainName {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 var(--sp-4);
+  padding-bottom: var(--sp-2);
+  border-bottom: var(--hairline);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  border-bottom: var(--hairline);
+}
+
+.link {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-2);
+  padding: var(--sp-5) 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (min-width: 720px) {
+  .link {
+    grid-template-columns: 1fr 5.5rem;
+    align-items: baseline;
+    gap: var(--sp-5);
+  }
+}
+
+.link:hover .title {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--size-26);
+  line-height: 1.2;
+  margin: 0 0 var(--sp-2);
+}
+
+.blurb {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--size-17);
+  max-width: var(--measure);
+}
+
+.minutes {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--size-13);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+@media (min-width: 720px) {
+  .minutes {
+    text-align: right;
+  }
+}
+
+.colophon {
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-5);
+  border-top: var(--hairline);
+  font-size: var(--size-15);
+  color: var(--muted);
+  max-width: var(--measure);
+}

@@ -16,6 +16,7 @@ import type { ParamSchema } from './engine/params';
 import type { ParamApi } from './engine/useParams';
 
 import * as taxIncidence from './explorables/tax-incidence';
+import * as waveInterference from './explorables/wave-interference';
 import * as survivalAnalysis from './explorables/survival-analysis';
 import * as statisticalPower from './explorables/statistical-power';
 import * as simpsonsParadox from './explorables/simpsons-paradox';
@@ -33,6 +34,7 @@ export interface ExplorableModule<S extends ParamSchema = ParamSchema> {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const registry: readonly ExplorableModule<any>[] = [
   taxIncidence,
+  waveInterference,
   survivalAnalysis,
   bayesBaseRates,
   centralLimit,

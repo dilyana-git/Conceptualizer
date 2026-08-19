@@ -29,6 +29,16 @@ import styles from './View.module.css';
  * edges were visibly stair-stepped once scaled up to the displayed size.
  */
 const FIELD_RESOLUTION = 400;
+
+/**
+ * A converged loss is often far below 1e-4, and "0.0000" tells the reader
+ * nothing about how far it got — which is precisely the comparison this
+ * explorable asks them to make between plain descent and momentum.
+ */
+function formatLoss(v: number): string {
+  if (v === 0) return '0';
+  return v < 1e-4 ? v.toExponential(1) : v.toFixed(4);
+}
 const BANDS = 9;
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -201,12 +211,12 @@ export function View({ params, controls }: ViewProps) {
               className={`${styles.readoutValue} ${outcome.diverged ? styles.readoutWarn : styles.readoutPath}`}
               data-testid="final-loss"
             >
-              {outcome.diverged ? 'diverged' : outcome.finalLoss.toFixed(4)}
+              {outcome.diverged ? 'diverged' : formatLoss(outcome.finalLoss)}
             </span>
           </div>
           <div className={styles.readout}>
             <span className={styles.readoutLabel}>Loss at start</span>
-            <span className={styles.readoutValue}>{outcome.startLoss.toFixed(3)}</span>
+            <span className={styles.readoutValue}>{formatLoss(outcome.startLoss)}</span>
           </div>
           <div className={styles.readout}>
             <span className={styles.readoutLabel}>Stable below</span>

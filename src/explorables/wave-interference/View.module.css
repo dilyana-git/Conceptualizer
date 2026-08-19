@@ -1,0 +1,119 @@
+/*
+ * Colour semantics (§2.1).
+ *
+ * The field *is* the controlled quantity here — every slider reshapes it — so
+ * it carries the signal hues rather than ink. In the live-wave view the two
+ * hues are the two signs of displacement: --signal for a crest, --signal-warm
+ * for a trough, paper at zero. In the time-averaged view intensity is
+ * non-negative, so it runs paper to --signal alone.
+ *
+ * The sources and the far-field rays are ink: they are geometry, not field.
+ */
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .figure {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+  }
+  .fieldCell {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .controlsCell {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .metricsCell {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+.fieldCell,
+.metricsCell {
+  min-width: 0;
+}
+
+.canvasHolder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 45vh;
+  margin: 0 auto;
+  border: var(--hairline);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .canvasHolder {
+    max-height: none;
+    max-width: 520px;
+  }
+}
+
+.status {
+  margin-top: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  color: var(--muted);
+}
+
+.readouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+@media (min-width: 560px) {
+  .readouts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readoutLabel {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.readoutValue {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-size: var(--size-17);
+  color: var(--signal);
+}
+
+@media (min-width: 900px) {
+  .readoutValue {
+    font-size: var(--size-20);
+  }
+}
+
+.readoutInk {
+  color: var(--graphite);
+}
+
+.caption {
+  font-size: var(--size-15);
+  color: var(--muted);
+  margin: var(--sp-4) 0 0;
+  max-width: var(--measure);
+}

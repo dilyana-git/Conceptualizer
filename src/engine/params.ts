@@ -117,8 +117,42 @@ export function clamp(v: number, min: number, max: number): number {
   return v < min ? min : v > max ? max : v;
 }
 
-/** Snaps to the spec's step grid, anchored at `min`, then clamps. */
+/**
+ * Significant figures kept for log-scale parameters.
+ *
+ * Four resolves adjacent slider positions across four decades: with 1000
+ * positions spanning a factor of 5000, neighbours differ by 0.85%, comfortably
+ * above the 0.1% that four figures distinguishes.
+ */
+export const LOG_SIGNIFICANT_DIGITS = 4;
+
+/** Rounds to `digits` significant figures. */
+export function toSignificantFigures(v: number, digits: number): number {
+  if (v === 0 || !Number.isFinite(v)) return v;
+  const magnitude = Math.ceil(Math.log10(Math.abs(v)));
+  const factor = 10 ** (digits - magnitude);
+  return Math.round(v * factor) / factor;
+}
+
+/**
+ * Snaps a value to the granularity its scale implies, then clamps.
+ *
+ * Linear parameters snap to the spec's step grid, anchored at `min`.
+ *
+ * Log parameters do NOT: an absolute step is the wrong granularity for a log
+ * scale by construction, because it is coarse at one end of the range and fine
+ * at the other. Snapping a log slider to an absolute grid makes the control
+ * genuinely stuck wherever the grid is coarser than the distance between
+ * adjacent slider positions — the value rounds back to where it started and
+ * neither dragging nor an arrow key can move it. Log parameters keep a fixed
+ * number of significant figures instead, which is the same relative precision
+ * everywhere. `step` still governs the linear case and still documents the
+ * intended resolution.
+ */
 export function quantise(spec: ContinuousParam, v: number): number {
+  if (spec.scale === 'log') {
+    return clamp(toSignificantFigures(v, LOG_SIGNIFICANT_DIGITS), spec.min, spec.max);
+  }
   const steps = Math.round((v - spec.min) / spec.step);
   const snapped = spec.min + steps * spec.step;
   // Re-round to kill float drift so readouts show 0.35, not 0.35000000000004.
@@ -137,6 +171,8 @@ export function decimalsFor(step: number): number {
 /** Default readout formatting; a spec's own `format` wins over this. */
 export function formatValue(spec: ContinuousParam, v: number): string {
   if (spec.format) return spec.format(v);
+  // A log parameter has no fixed number of decimals that suits its whole range.
+  if (spec.scale === 'log') return String(toSignificantFigures(v, LOG_SIGNIFICANT_DIGITS));
   return v.toFixed(decimalsFor(spec.step));
 }
 
@@ -168,6 +204,9 @@ export function coerce(spec: ParamSpec, raw: string): number | string | boolean 
 function serialise(spec: ParamSpec, value: number | string | boolean): string {
   if (spec.kind === 'toggle') return value ? '1' : '0';
   if (spec.kind === 'continuous' && typeof value === 'number') {
+    // Log values are already at their full stored precision; rounding them to
+    // the step's decimals here would silently lose it on every round trip.
+    if (spec.scale === 'log') return String(value);
     return String(Number(value.toFixed(decimalsFor(spec.step))));
   }
   return String(value);

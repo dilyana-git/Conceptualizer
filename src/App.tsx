@@ -1,19 +1,38 @@
 /**
- * §11: the index page is deliberately last (M5), and no router dependency is
- * added for a single route — §13 says ask before adding a dependency, and at M1
- * `location.pathname` answers the only question there is.
+ * Routing. §13 says to ask before adding a dependency, and a router is not
+ * needed here: every route is a real pre-rendered document served by the host
+ * (§10), so `location.pathname` decides what to mount and plain anchors move
+ * between pages.
  */
 import { ExplorablePage } from './routes/ExplorablePage';
-import { findExplorable, registry } from './registry';
+import { IndexPage } from './routes/IndexPage';
+import { NotFoundPage } from './routes/NotFoundPage';
+import { findExplorable } from './registry';
+
+export function currentSlug(pathname: string): string {
+  return pathname.replace(/^\/+|\/+$/g, '');
+}
 
 export function App() {
   const path = typeof window === 'undefined' ? '/' : window.location.pathname;
-  const slug = path.replace(/^\/+|\/+$/g, '');
+  const slug = currentSlug(path);
 
-  const fallback = registry[0];
-  const module = findExplorable(slug) ?? fallback;
+  if (slug === '') {
+    return (
+      <main>
+        <IndexPage />
+      </main>
+    );
+  }
 
-  if (!module) return <main>No explorables are registered.</main>;
+  const module = findExplorable(slug);
+  if (!module) {
+    return (
+      <main>
+        <NotFoundPage slug={slug} />
+      </main>
+    );
+  }
 
   return (
     <main>

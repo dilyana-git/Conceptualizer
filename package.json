@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run prerender",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc -b --noEmit false --emitDeclarationOnly false",
     "test:e2e": "playwright test",
-    "lint:types": "tsc -b"
+    "lint:types": "tsc -b",
+    "prerender": "vite build --ssr src/prerender/entry.ts --outDir .prerender --logLevel warn && node .prerender/entry.js",
+    "build:fonts": "node scripts/build-fonts.mjs",
+    "build:og": "node scripts/build-og.mjs"
   },
   "dependencies": {
     "d3-scale": "^4.0.2",

@@ -23,11 +23,12 @@
    * Body:    Source Serif 4 — all explanatory prose.
    * Utility: IBM Plex Mono — every numeric readout, axis tick, parameter value.
    *
-   * §10 requires these three faces be self-hosted as woff2 subsets and
-   * explicitly forbids loading them from Google's CDN. Self-hosting is a
-   * launch-milestone (M5) task; until the subsets are vendored into
-   * /public/fonts the stacks below fall through to system faces, which keeps
-   * the type scale and rhythm correct without shipping a third-party request.
+   * All three are self-hosted as latin woff2 subsets under /public/fonts, per
+   * §10, which also forbids loading them from Google's CDN — nothing here talks
+   * to a third-party origin. The @font-face rules live in the generated
+   * fonts.css; see scripts/build-fonts.mjs. The system fallbacks below still
+   * matter: font-display is swap, so they are what a reader sees for the first
+   * few hundred milliseconds.
    */
   --font-display: 'Bodoni Moda', 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif;
   --font-body: 'Source Serif 4', 'Source Serif Pro', Charter, Georgia, serif;

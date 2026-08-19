@@ -5,10 +5,11 @@
  * incidence, which is what makes adding explorable #2 a content job rather than
  * a routing job.
  */
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import { Controls } from '../engine/Controls';
 import { Equation } from '../engine/Equation';
 import { useParams } from '../engine/useParams';
+import { trackParameterChanged } from '../engine/analytics';
 import type { ParamSchema } from '../engine/params';
 import type { ExplorableModule } from '../registry';
 import styles from './ExplorablePage.module.css';
@@ -19,7 +20,21 @@ export interface ExplorablePageProps<S extends ParamSchema> {
 
 export function ExplorablePage<S extends ParamSchema>({ module }: ExplorablePageProps<S>) {
   const { meta, schema, View } = module;
-  const params = useParams(schema);
+  const rawParams = useParams(schema);
+
+  // §10's single custom event. Wrapping `set` here rather than inside
+  // useParams keeps the engine ignorant of analytics, and this is the only
+  // layer that knows which explorable is on screen.
+  const params = useMemo<typeof rawParams>(
+    () => ({
+      ...rawParams,
+      set: (id, value) => {
+        trackParameterChanged(meta.slug);
+        rawParams.set(id, value);
+      },
+    }),
+    [rawParams, meta.slug],
+  );
 
   // §7.4: "Set it up" puts the model into the state the challenge is about, so
   // checking an answer is one click rather than a hunt across six sliders.
@@ -31,9 +46,13 @@ export function ExplorablePage<S extends ParamSchema>({ module }: ExplorablePage
 
   return (
     <article className={styles.page}>
-      <p className={styles.kicker}>
-        {meta.domain} · {meta.minutes} min
-      </p>
+      <nav className={styles.breadcrumb}>
+        <a href="/">Explorables</a>
+        <span aria-hidden="true"> / </span>
+        <span className={styles.kicker}>
+          {meta.domain} · {meta.minutes} min
+        </span>
+      </nav>
       <h1 className={styles.title}>{meta.title}</h1>
 
       {/* 1. Hook */}
@@ -106,7 +125,12 @@ export function ExplorablePage<S extends ParamSchema>({ module }: ExplorablePage
         </ul>
       </section>
 
-      <p className={styles.meta}>Updated {meta.updated}</p>
+      <footer className={styles.meta}>
+        <p>Updated {meta.updated}</p>
+        <p>
+          <a href="/">All explorables</a>
+        </p>
+      </footer>
     </article>
   );
 }
