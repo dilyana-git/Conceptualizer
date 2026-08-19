@@ -135,3 +135,9 @@
   font-size: var(--size-13);
   color: var(--muted);
 }
+
+.stageFallback {
+  min-height: 60vh;
+  border-radius: 3px;
+  background: var(--paper-sunk);
+}

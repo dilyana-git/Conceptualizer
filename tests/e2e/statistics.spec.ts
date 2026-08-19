@@ -1,4 +1,29 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+/**
+ * Wait for a readout to stop changing.
+ *
+ * On a URL that carries no parameters the §2.4 intro animation sweeps the model
+ * on first scroll into view, so the readouts are genuinely in motion for about a
+ * second after load. Reading two of them without waiting catches them on
+ * different frames. Tests that navigate with query parameters do not need this —
+ * arriving with state suppresses the intro.
+ */
+async function settle(page: Page, testId: string): Promise<void> {
+  let previous: string | null = null;
+  await expect
+    .poll(
+      async () => {
+        const now = await page.getByTestId(testId).innerText();
+        const unchanged = now === previous;
+        previous = now;
+        return unchanged;
+      },
+      { timeout: 8000, intervals: [200, 200, 200, 200, 200] },
+    )
+    .toBe(true);
+}
+
 
 /** Every explorable must clear the §12 checklist, not just tax-incidence. */
 const EXPLORABLES = [
@@ -108,6 +133,7 @@ test.describe('specific claims each model makes', () => {
     await expect(page.getByTestId('verdict')).toHaveText('Both point the same way');
 
     await page.goto('/simpsons-paradox');
+    await settle(page, 'pooled-slope');
     await expect(page.getByTestId('verdict')).toHaveText('Reversed');
     // The measured pooled slope must match the closed-form prediction.
     const pooled = Number(await page.getByTestId('pooled-slope').innerText());

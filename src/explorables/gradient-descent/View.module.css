@@ -1,0 +1,127 @@
+/*
+ * Colour semantics (§2.1).
+ *
+ *   --signal (blue) the path — the only thing the reader's sliders draw
+ *
+ * The loss surface is ink: it is fixed once the surface is chosen, and it is
+ * the ground the path is drawn on rather than a quantity under the hand.
+ * Rendering it as banded graphite rather than a colour ramp keeps the one
+ * signal hue meaning exactly one thing, and reads as an engraved contour plate
+ * (§2), which is what a contour map is.
+ */
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .figure {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+  }
+  .fieldCell {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .controlsCell {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .metricsCell {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+.fieldCell,
+.metricsCell {
+  min-width: 0;
+}
+
+.canvasHolder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 45vh;
+  margin: 0 auto;
+  border: var(--hairline);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .canvasHolder {
+    max-height: none;
+    max-width: 520px;
+  }
+}
+
+.status {
+  margin-top: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  color: var(--muted);
+}
+
+.diverged {
+  color: var(--signal-warm);
+}
+
+.readouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+@media (min-width: 560px) {
+  .readouts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readoutLabel {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.readoutValue {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-size: var(--size-17);
+  color: var(--graphite);
+}
+
+@media (min-width: 900px) {
+  .readoutValue {
+    font-size: var(--size-20);
+  }
+}
+
+.readoutPath {
+  color: var(--signal);
+}
+
+.readoutWarn {
+  color: var(--signal-warm);
+}
+
+.caption {
+  font-size: var(--size-15);
+  color: var(--muted);
+  margin: var(--sp-4) 0 0;
+  max-width: var(--measure);
+}

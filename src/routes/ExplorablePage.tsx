@@ -5,6 +5,7 @@
  * incidence, which is what makes adding explorable #2 a content job rather than
  * a routing job.
  */
+import { Suspense } from 'react';
 import { Controls } from '../engine/Controls';
 import { Equation } from '../engine/Equation';
 import { useParams } from '../engine/useParams';
@@ -47,7 +48,12 @@ export function ExplorablePage<S extends ParamSchema>({ module }: ExplorablePage
         <p className={styles.prompt}>{meta.play}</p>
         {/* The view places the panel: §9 wants it directly under the chart on
             a phone, which only the view knows how to arrange. */}
-        <View params={params} controls={<Controls schema={schema} params={params} />} />
+        {/* §9: the View arrives as its own chunk. The fallback holds the
+            stage open at roughly the right height so the prose below does not
+            jump when it lands. */}
+        <Suspense fallback={<div className={styles.stageFallback} aria-busy="true" />}>
+          <View params={params} controls={<Controls schema={schema} params={params} />} />
+        </Suspense>
       </div>
 
       {/* 3. Reveal — the equation appears here, not before (§7.3). */}

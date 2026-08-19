@@ -1,0 +1,205 @@
+/*
+ * Colour semantics (§2.1).
+ *
+ *   --signal      (blue)   people who have the condition and tested positive
+ *   --signal-warm (orange) people who do not have it and tested positive anyway
+ *
+ * Those two groups are the whole answer: the reader's sliders move nothing so
+ * directly as the ratio between them, and that ratio is what a positive result
+ * means. Everyone the test cleared is ink — the true negatives sit at --rule
+ * because they are the backdrop, and the missed cases at --graphite because
+ * they are the model's other error and should be findable but not loud.
+ */
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .figure {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+  }
+
+  .arrayCell {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .controlsCell {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .metricsCell {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+.arrayCell,
+.metricsCell {
+  min-width: 0;
+}
+
+.canvasHolder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 45vh;
+  margin: 0 auto;
+}
+
+@media (min-width: 900px) {
+  .canvasHolder {
+    max-height: none;
+    max-width: 560px;
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  margin-top: var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  color: var(--muted);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex: none;
+}
+
+.swatchTp {
+  background: var(--signal);
+}
+.swatchFp {
+  background: var(--signal-warm);
+}
+.swatchFn {
+  background: var(--graphite);
+}
+.swatchTn {
+  background: var(--rule);
+}
+
+/* The punchline bar: of everyone told "positive", who actually has it. */
+.verdict {
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+.verdictLabel {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 var(--sp-2);
+}
+
+.bar {
+  display: flex;
+  height: 26px;
+  width: 100%;
+  border: var(--hairline);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.barTrue {
+  background: var(--signal);
+}
+
+.barFalse {
+  background: var(--signal-warm);
+}
+
+.barCaption {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--size-13);
+  margin-top: var(--sp-2);
+}
+
+.barTrueText {
+  color: var(--signal);
+}
+
+.barFalseText {
+  color: var(--signal-warm);
+}
+
+.readouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-4);
+  padding-top: var(--sp-4);
+  margin-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+@media (min-width: 560px) {
+  .readouts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readoutLabel {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.readoutValue {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-size: var(--size-17);
+}
+
+@media (min-width: 900px) {
+  .readoutValue {
+    font-size: var(--size-20);
+  }
+}
+
+.readoutTrue {
+  color: var(--signal);
+}
+.readoutFalse {
+  color: var(--signal-warm);
+}
+.readoutInk {
+  color: var(--graphite);
+}
+
+.caption {
+  font-size: var(--size-15);
+  color: var(--muted);
+  margin: var(--sp-4) 0 0;
+  max-width: var(--measure);
+}

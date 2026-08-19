@@ -2,20 +2,27 @@
  * §5: the registry is a flat array. Adding an explorable is one folder plus one
  * import line — no CMS, no dynamic route generation, no MDX pipeline.
  *
- * §13: no placeholder entries. An empty folder for a future concept is a promise
- * the codebase will not keep, so the other five explorables in §8 appear here
- * only when they are actually built.
+ * Each explorable's `index.ts` re-exports exactly `meta`, `schema` and `View`,
+ * which is the whole module contract, so a namespace import *is* the registry
+ * entry. That keeps the cost of adding one to a single line.
+ *
+ * §13: no placeholder entries. An empty folder for a future concept is a
+ * promise the codebase will not keep, so an explorable appears here only when
+ * it is actually built.
  */
 import type { ComponentType, ReactNode } from 'react';
 import type { ExplorableMeta } from './engine/meta';
 import type { ParamSchema } from './engine/params';
 import type { ParamApi } from './engine/useParams';
 
-import { meta as taxIncidenceMeta, schema as taxIncidenceSchema, View as TaxIncidenceView } from './explorables/tax-incidence';
-import { meta as survivalMeta, schema as survivalSchema, View as SurvivalView } from './explorables/survival-analysis';
-import { meta as powerMeta, schema as powerSchema, View as PowerView } from './explorables/statistical-power';
-import { meta as simpsonMeta, schema as simpsonSchema, View as SimpsonView } from './explorables/simpsons-paradox';
-import { meta as biasVarianceMeta, schema as biasVarianceSchema, View as BiasVarianceView } from './explorables/bias-variance';
+import * as taxIncidence from './explorables/tax-incidence';
+import * as survivalAnalysis from './explorables/survival-analysis';
+import * as statisticalPower from './explorables/statistical-power';
+import * as simpsonsParadox from './explorables/simpsons-paradox';
+import * as biasVariance from './explorables/bias-variance';
+import * as bayesBaseRates from './explorables/bayes-base-rates';
+import * as centralLimit from './explorables/central-limit';
+import * as gradientDescent from './explorables/gradient-descent';
 
 export interface ExplorableModule<S extends ParamSchema = ParamSchema> {
   meta: ExplorableMeta;
@@ -25,11 +32,14 @@ export interface ExplorableModule<S extends ParamSchema = ParamSchema> {
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const registry: readonly ExplorableModule<any>[] = [
-  { meta: taxIncidenceMeta, schema: taxIncidenceSchema, View: TaxIncidenceView },
-  { meta: survivalMeta, schema: survivalSchema, View: SurvivalView },
-  { meta: powerMeta, schema: powerSchema, View: PowerView },
-  { meta: simpsonMeta, schema: simpsonSchema, View: SimpsonView },
-  { meta: biasVarianceMeta, schema: biasVarianceSchema, View: BiasVarianceView },
+  taxIncidence,
+  survivalAnalysis,
+  bayesBaseRates,
+  centralLimit,
+  statisticalPower,
+  simpsonsParadox,
+  biasVariance,
+  gradientDescent,
 ];
 
 export function findExplorable(slug: string): ExplorableModule<any> | undefined {

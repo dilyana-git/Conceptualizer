@@ -1,0 +1,167 @@
+/*
+ * Colour semantics (§2.1).
+ *
+ *   --signal-warm (orange) the parent you picked — the distribution being sampled
+ *   --signal      (blue)   the sample means you generated from it
+ *
+ * Both are directly under a control: one is the discrete parent selector, the
+ * other is everything else. The predicted normal is ink, drawn dashed, because
+ * it is not a thing the reader makes — it is what the theorem says the blue
+ * histogram has to become.
+ */
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .figure {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+  }
+  .chartCell {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .controlsCell {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .metricsCell {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+.chartCell,
+.metricsCell {
+  min-width: 0;
+}
+
+.panelLabel {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 var(--sp-1);
+}
+
+.parentChart {
+  width: 100%;
+  max-height: 15vh;
+}
+
+.meansChart {
+  width: 100%;
+  max-height: 34vh;
+}
+
+@media (min-width: 900px) {
+  .parentChart,
+  .meansChart {
+    max-height: none;
+  }
+}
+
+.gap {
+  margin-top: var(--sp-4);
+}
+
+.parentCurve {
+  fill: var(--signal-warm-dim);
+  stroke: var(--signal-warm);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.bar {
+  fill: var(--signal-dim);
+  stroke: var(--signal);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.barFolded {
+  fill: url(#clt-overflow);
+}
+
+.overflowNote {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  color: var(--muted);
+  margin: var(--sp-3) 0 0;
+  max-width: var(--measure);
+}
+
+.normalCurve {
+  fill: none;
+  stroke: var(--graphite);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.meanMark {
+  stroke: var(--graphite);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.readouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+@media (min-width: 560px) {
+  .readouts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readoutLabel {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.readoutValue {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-size: var(--size-17);
+  color: var(--signal);
+}
+
+@media (min-width: 900px) {
+  .readoutValue {
+    font-size: var(--size-20);
+  }
+}
+
+.predicted {
+  font-family: var(--font-mono);
+  font-size: var(--size-13);
+  color: var(--muted);
+}
+
+.caption {
+  font-size: var(--size-15);
+  color: var(--muted);
+  margin: var(--sp-4) 0 0;
+  max-width: var(--measure);
+}
